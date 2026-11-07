@@ -1,0 +1,28 @@
+# Builds the app on a free GitHub Mac every time you upload changes.
+# It checks that the Swift code compiles. It does not need an Apple account.
+name: Build iOS app
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Create the Xcode project
+        run: xcodegen generate
+
+      - name: Build for the iPhone simulator
+        run: |
+          xcodebuild build \
+            -project Unscroll.xcodeproj \
+            -scheme Unscroll \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO

@@ -1,0 +1,29 @@
+# Codemagic builds the app on a cloud Mac and uploads it to App Store Connect (TestFlight).
+# Use this once you have a paid Apple Developer account. See README.md, "Publish to the App Store".
+workflows:
+  app-store:
+    name: Unscroll to App Store
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    integrations:
+      app_store_connect: Unscroll API key   # the name you give the App Store Connect API key in Codemagic
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.avoplayer12.unscroll
+    scripts:
+      - name: Create the Xcode project
+        script: brew install xcodegen && xcodegen generate
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Set the build number
+        script: agvtool new-version -all $(($BUILD_NUMBER + 1))
+      - name: Build the app
+        script: xcode-project build-ipa --project "Unscroll.xcodeproj" --scheme "Unscroll"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
