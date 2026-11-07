@@ -20,18 +20,6 @@ No account, no ads, no tracking. Data is saved on the iPhone only.
 | `.github/workflows/build.yml` | Builds the app on a free GitHub Mac to check that it compiles. |
 | `codemagic.yaml` | Builds and uploads to the App Store with Codemagic. |
 
-## Check that it builds (free, no Mac)
-
-1. Create a new GitHub repository called `unscroll-ios` and upload everything in this folder, including the `.github` folder.
-2. Open the **Actions** tab. The "Build iOS app" job runs on a GitHub Mac. A green check means the app compiles.
-
-## Publish to the App Store (needs an Apple Developer account, $99 a year)
-
-1. Join the Apple Developer Program at developer.apple.com.
-2. In App Store Connect, create a new app with bundle ID `com.avoplayer12.unscroll`.
-3. In App Store Connect → Users and Access → Integrations, create an API key (role: App Manager).
-4. Sign up at codemagic.io with GitHub, add the `unscroll-ios` repository, and add the API key under Team integrations → Developer Portal. Name it `Unscroll API key`.
-5. Start the **Unscroll to App Store** workflow. The build appears in TestFlight. Test it, then submit it for review in App Store Connect.
 
 ## How the gate works
 
